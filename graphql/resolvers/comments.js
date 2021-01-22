@@ -17,7 +17,7 @@ module.exports = {
 
             const post = await Post.findById(postId);
 
-            if(post){
+            if(post) {
                 post.comments.unshift({
                     body,
                     username,
@@ -25,9 +25,12 @@ module.exports = {
                 })
                 await post.save();
                 return post;
-            } else throw new UserInputError('Post not found.');
+            } 
+            else {
+                throw new UserInputError('Post not found.');
+            }
         },
-        async deleteComment(_, {postId, commentId}, context){
+        async deleteComment(_, {postId, commentId}, context) {
             const {username} = checkAuth(context);
 
             const post = await Post.findById(postId);
@@ -37,10 +40,12 @@ module.exports = {
                     post.comments.splice(commentIndex, 1);
                     await post.save();
                     return post;
-                } else {
+                } 
+                else {
                     throw new AuthenticationError('Action not allowed');
                 }
-            } else {
+            } 
+            else {
                 throw new UserInputError('Post not found')
             }
         }

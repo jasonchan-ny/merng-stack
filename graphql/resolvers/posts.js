@@ -5,11 +5,12 @@ const checkAuth = require('../../util/check-auth')
 
 module.exports = {
     Query: {
-        async getPosts(){
+        async getPosts() {
             try{
                 const posts = await Post.find().sort({ createdAt: -1});
                 return posts;
-            } catch(err){
+            } 
+            catch(err) {
                 throw new Error(err);
             }
         },
@@ -18,10 +19,12 @@ module.exports = {
                 const post = await Post.findById(postId);
                 if(post){
                     return post;
-                } else {
+                } 
+                else {
                     throw new Error('Post not found');
                 }
-            } catch(err){
+            } 
+            catch(err) {
                 throw new Error(err);
             }
         }
@@ -57,10 +60,12 @@ module.exports = {
                 if(user.username === post.username){
                     await post.delete();
                     return 'Post deleted successfully';
-                } else {
+                } 
+                else {
                     throw new AuthenticationError('Action not allowed');
                 }
-            } catch(err) {
+            } 
+            catch(err) {
                 throw new Error(err);
             }
         },
@@ -72,7 +77,8 @@ module.exports = {
                 if(post.likes.find(like => like.username === username)){
                     //Post already liked, unlike it 
                     post.likes = post.likes.filter(like => like.username !== username);
-                } else {
+                } 
+                else {
                     //Like Post
                     post.likes.push({
                         username,
@@ -81,7 +87,10 @@ module.exports = {
                 }
                 await post.save();
                 return post;
-            } else throw new UserInputError('Post not found.')
+            } 
+            else { 
+                throw new UserInputError('Post not found.')
+            }
         }
     },
     Subscription: {
